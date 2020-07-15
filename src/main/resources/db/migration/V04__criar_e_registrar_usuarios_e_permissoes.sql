@@ -32,6 +32,7 @@ INSERT INTO permissao (codigo, descricao) values (6, 'ROLE_CADASTRAR_PRODUTO');
 INSERT INTO permissao (codigo, descricao) values (7, 'ROLE_REMOVER_PRODUTO');
 INSERT INTO permissao (codigo, descricao) values (8, 'ROLE_PESQUISAR_PRODUTO');
 
+
 -- admin
 INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (1, 1);
 INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (1, 2);

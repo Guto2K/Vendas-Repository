@@ -26,6 +26,8 @@ public class Usuario {
 	@JoinTable(name="usuario_permissao", joinColumns = @JoinColumn(name = "codigo_usuario")
 	,inverseJoinColumns = @JoinColumn(name="codigo_permissao"))
 	private List<Permissao> permissoes;
+	
+	
 
 	public Long getCodigo() {
 		return codigo;

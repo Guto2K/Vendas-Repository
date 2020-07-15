@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.tri.vendas.api.model.Usuario;
 import com.tri.vendas.api.repository.UsuarioRepository;
 
-
+//recupera as permissões do usuario
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 

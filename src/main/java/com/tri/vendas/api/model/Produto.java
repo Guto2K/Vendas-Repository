@@ -9,7 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name= "produto")
@@ -32,12 +35,16 @@ public class Produto {
 	@NotNull
 	private Integer qtda;
 	
+	@JsonIgnore
+	@Transient
+	private int qtdaCompra = 0;
+	
 	@NotNull
 	//1 ou muitos produtos para 1 categoria
 	@ManyToOne
 	//coluna que faz a referência no banco:
 	@JoinColumn(name = "codigo_categoria")
-	Categoria categoria;
+	private Categoria categoria;
 	
 	@NotNull
 	@ManyToOne
@@ -46,6 +53,17 @@ public class Produto {
 	
 	
 
+	public int getQtdaCompra() {
+		return qtdaCompra;
+	}
+
+	public void setQtdaCompra(int qtdaCompra) {
+		this.qtdaCompra = qtdaCompra;
+	}
+
+	
+	
+	
 	public Long getCodigo() {
 		return codigo;
 	}
