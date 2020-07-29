@@ -32,12 +32,17 @@ public class Produto {
 	@NotNull
 	private BigDecimal preco;
 	
+	//quantidade estoque
 	@NotNull
 	private Integer qtda;
 	
-	@JsonIgnore
+	//@JsonIgnore  tem q tirar senao o jackson n retorna o json desse campo la no postman e em outro lugar
 	@Transient
 	private int qtdaCompra = 0;
+	
+	//@JsonIgnore
+	@Transient
+	private Double precoQtdaCompra = 0.00;
 	
 	@NotNull
 	//1 ou muitos produtos para 1 categoria
@@ -53,6 +58,15 @@ public class Produto {
 	
 	
 
+	
+	public Double getPrecoQtdaCompra() {
+		return precoQtdaCompra;
+	}
+
+	public void setPrecoQtdaCompra(Double precoQtdaCompra) {
+		this.precoQtdaCompra = precoQtdaCompra;
+	}
+
 	public int getQtdaCompra() {
 		return qtdaCompra;
 	}
@@ -61,6 +75,8 @@ public class Produto {
 		this.qtdaCompra = qtdaCompra;
 	}
 
+	
+	
 	
 	
 	
@@ -147,7 +163,9 @@ public class Produto {
 	
 	
 	
-	
+	public String toString(){
+		return codigo+" "+nome+" "+preco+" "+qtda;
+	}
 	
 	
 

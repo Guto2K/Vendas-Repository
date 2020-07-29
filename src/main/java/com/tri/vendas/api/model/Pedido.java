@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name="pedidos")
+@Table(name="pedido")
 public class Pedido {
 	
 	@Id
@@ -30,12 +30,13 @@ public class Pedido {
 	private String formaDePagamento = "Dinheiro"; // TODO caso de uso novo para pagamento
 	/* não posso deixar notnull pois não há registro do carrinho no banco
 	@NotNull*/
+	//n posso nem por 1 para 1 porque n existe nada em carrinho
 	@OneToOne
 	@JoinColumn(name = "codigo_carrinho")
 	private Carrinho carrinho;
 	
-	@JsonFormat(pattern =  "dd/MM/yyyy")
-	@Column(name = "data_compra")
+
+	@Column(name = "dataCompra")
 	private LocalDate dataCompra;
 	
 	

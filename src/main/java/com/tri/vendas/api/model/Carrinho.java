@@ -1,6 +1,7 @@
 package com.tri.vendas.api.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,14 +16,19 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.sun.xml.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+
 @Entity
 @Table(name="carrinho")
 public class Carrinho {
 	
-	@Id
+	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	@Column(name="codigo")
 	private long id;
+	
+	//certo era criar uma classe pra guardar o valor total de 1 produto, qtda e outras coisas sendo uma list igual produto
 	
 	// esse vai sair daqui e vai ser la no Produto.
 	//private Integer quantidade;
@@ -41,9 +47,9 @@ public class Carrinho {
 	//@OneToMany
 	//@JoinColumn(name = "codigo_produto")
 	
-	@JoinColumn(name="codigo_produto")
+	@JoinColumn(name="codigo_carrinho")
 	@OneToMany(fetch = FetchType.EAGER)
-	private List<Produto> produto;
+	private List<Produto> produto = new ArrayList<Produto>();
 	
 	
 	
@@ -108,6 +114,8 @@ public class Carrinho {
 	
 	
 	
-	
+	public String toString(){
+		return id+" "+valorTotalProdutos+" "+produto.toString();
+	}
 	
 }

@@ -59,6 +59,7 @@ public class RefreshTokenCookiePreProcessorFilter implements Filter {
 			super(request);
 			this.refreshToken = refreshToken;
 			
+			
 		}
 		
 		
