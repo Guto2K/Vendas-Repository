@@ -31,7 +31,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		//poderia configurar para banco de dados tmb para servir varios clients, no caso vai servir só 1 o laravel/angular.
 		clients.inMemory()
 		.withClient("angular")
-		.secret("$2a$10$FWpJ1L5XooG7l4JcQ1ozOOQkVZwZb8mwj9sE3ufwioj9n1GRjh0Tq")
+		.secret("$2a$10$anuQU6sekG42CCq5QUzLyun6G9J1SZk2wBv3v0KdBKDL0/Nv68y.y")
 		.scopes("read","write")
 		.authorizedGrantTypes("password", "refresh_token")
 		.accessTokenValiditySeconds(1800)

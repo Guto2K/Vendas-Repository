@@ -17,9 +17,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import com.tri.vendas.api.model.Categoria_;
+import com.tri.vendas.api.model.Pessoa_;
 import com.tri.vendas.api.model.Produto;
 import com.tri.vendas.api.model.Produto_;
 import com.tri.vendas.api.repository.filter.ProdutoFilter;
+import com.tri.vendas.api.repository.projection.ResumoProduto;
 
 public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
 
@@ -59,6 +62,39 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
 		return new PageImpl<>(query.getResultList(), pageable, total(produtoFilter));
 	}
 	
+	@Override
+	public Page<ResumoProduto> resumir(ProdutoFilter produtoFilter, Pageable pageable) {
+		
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<ResumoProduto> criteria = builder.createQuery(ResumoProduto.class);
+		Root<Produto> root = criteria.from(Produto.class);
+		
+		criteria.select(builder.construct(ResumoProduto.class
+				, root.get(Produto_.CODIGO), root.get(Produto_.NOME)
+				, root.get(Produto_.IMG), root.get(Produto_.PRECO)
+				, root.get(Produto_.QTDA), root.get(Produto_.CATEGORIA).get(Categoria_.NOME)
+				, root.get(Produto_.PESSOA).get(Pessoa_.NOME)));
+		
+		
+		Predicate[] predicates = criarRestricoes(produtoFilter, builder, root);
+		
+		criteria.where(predicates);
+		
+		Order[] orders = criarOrdenacao(produtoFilter, builder, root);
+		
+		criteria.orderBy(orders);
+		
+		//------------
+		TypedQuery<ResumoProduto> query = manager.createQuery(criteria);
+		
+		//paginação : tem que passar a "query" pq ela tem o resultado da pesquisa no banco atraves do getresult, resultset
+		
+		
+		adicionarRestricoesDePaginacao(query, pageable);
+		
+		
+		return new PageImpl<>(query.getResultList(), pageable, total(produtoFilter));
+	}
 	
 	
 //para contar quantos registros tem
@@ -76,7 +112,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
 	}
 
 
-	private void adicionarRestricoesDePaginacao(TypedQuery<Produto> query, Pageable pageable) {
+	private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
 		
 		int paginaAtual = pageable.getPageNumber();
 		int totalRegistrosPorPagina = pageable.getPageSize();
@@ -124,5 +160,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
 		
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
+
+
 
 }

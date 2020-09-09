@@ -54,7 +54,7 @@ public class Produto {
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "codigo_pessoa")
-	Pessoa pessoa;
+	private Pessoa pessoa;
 	
 	
 

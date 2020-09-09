@@ -10,16 +10,21 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.tri.vendas.api.config.property.VendasApiProperty;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 //precisa do filtro pq o oauth2 n da acesso mesmo com permissao do cors, n tem integração boa com o security spring ainda.ele passa pela origin, mas o oauth2 n da acesso com token
 public class CorsFilter implements Filter {
 
-	private String originPermitida = "http://localhost:8000";
+//	private String originPermitida = "http://localhost:8000";
+	@Autowired
+	private VendasApiProperty vendasApiProperty;
 	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
@@ -30,12 +35,12 @@ public class CorsFilter implements Filter {
 		
 		
 		//para as origens permitidas
-		response.setHeader("Access-Control-Allow-Origin", originPermitida);
+		response.setHeader("Access-Control-Allow-Origin", vendasApiProperty.getOriginPermitida());
 		//para permitir credenciais de segurança como o Cookie
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		
-		if ("OPTIONAL".equals(request.getMethod())&& originPermitida.equals(request.getHeader("Origin"))) {
+		if ("OPTIONAL".equals(request.getMethod())&& vendasApiProperty.getOriginPermitida().equals(request.getHeader("Origin"))) {
 			//metodos permitidos
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
 //as headers autorizadas nas requisições

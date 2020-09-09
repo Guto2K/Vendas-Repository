@@ -31,6 +31,7 @@ import com.tri.vendas.api.exceptionhandler.VendasExceptionHandler.Erro;
 import com.tri.vendas.api.model.Produto;
 import com.tri.vendas.api.repository.ProdutoRepository;
 import com.tri.vendas.api.repository.filter.ProdutoFilter;
+import com.tri.vendas.api.repository.projection.ResumoProduto;
 import com.tri.vendas.api.service.ProdutoService;
 import com.tri.vendas.api.service.exception.PessoaInexistenteOuInativaException;
 
@@ -64,7 +65,12 @@ public class ProdutoResource {
 		return produtoRepository.filtrar(produtoFilter, pageable);
 	}
 	
-
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PRODUTO') and #oauth2.hasScope('read')")
+	public Page<ResumoProduto> resumir (ProdutoFilter produtoFilter, Pageable pageable){
+		
+		return produtoRepository.resumir(produtoFilter, pageable);
+	}
 	
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PRODUTO') and #oauth2.hasScope('read')")
